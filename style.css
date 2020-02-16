@@ -1,4 +1,29 @@
 img {
-  width: 300px;
+  margin: 25px;
+  width: 250px;
   height: 300px;
 } 
+
+h1 {
+  font-size: 40px;
+  font-weight: bold;
+  color: blue;
+  text-align: center;
+  margin: 10px;
+}
+
+h2 {
+  margin: 15px;
+  font-size: 32px;
+  color: red;
+  text-align: left;
+}
+
+p {
+  letter-spacing: 1px;
+  text-indent: 2%;
+  font-size: 22px;
+  color: black;
+  text-align: left;
+  margin: 10px;
+}
