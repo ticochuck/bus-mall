@@ -3,7 +3,7 @@
 var imageOneEl = document.getElementById('image1');
 var imageTwoEl = document.getElementById('image2');
 var imageThreeEl = document.getElementById('image3');
-var sectionDisplay = document.getElementById('imagesDisplayed');
+var sectionEL = document.getElementById('imagesDisplayed');
 
 var allProducts = [];
 
@@ -12,7 +12,7 @@ function Products(name, path) {
   this.path = path,
   this.viewed = 0;
   this.clicked = 0;
-  this.lastdisplayed = 0;
+  this.lastdisplayed = false;
   allProducts.push(this);
 }
 
@@ -25,30 +25,41 @@ function displayedImages() {
   var middlePic = random(allProducts.length);
   var rightPic = random(allProducts.length);
   
+  while ((middlePic === leftPic) || (middlePic === rightPic) || (leftPic === rightPic)) {
+    var rightPic = random(allProducts.length);
+    var middlePic = random(allProducts.length);
+    var rightPic = random(allProducts.length); 
+  }
     imageOneEl.alt = allProducts[leftPic].name;
     imageOneEl.src = allProducts[leftPic].path;
     allProducts[leftPic].viewed++;
-    allProducts[leftPic].lastdisplayed = 1;  
-   
+    allProducts[leftPic].lastdisplayed = true;  
    
     imageTwoEl.alt = allProducts[middlePic].name;
     imageTwoEl.src = allProducts[middlePic].path;
     allProducts[middlePic].viewed++;
-    allProducts[middlePic].lastdisplayed = 1;
+    allProducts[middlePic].lastdisplayed = true;
   
     imageThreeEl.alt = allProducts[rightPic].name;
     imageThreeEl.src = allProducts[rightPic].path;
     allProducts[rightPic].viewed++;
-    allProducts[rightPic].lastdisplayed = 1;
-  
+    allProducts[rightPic].lastdisplayed = true;
 } 
+var votes = 0;
 
-function handelClick(e) {
-  var clickedImage = e.target.src;
+function handleClick(e) {
+  var clickedImage = e.target.alt;
+  
+  console.log('clicked out of loop:', clickedImage)
   for(var i = 0; i < allProducts.length; i++){
-      if (clickedImage === allProducts[i].src){
-          allProducts[i].clicked++;
+      if (clickedImage === allProducts[i].name){
+        allProducts[i].clicked++;
+        votes++;
       }
+  }
+  if (votes === 7) {
+    alert('Thank you for voting')
+    votes = 0;
   }
   displayedImages();
 }
@@ -74,6 +85,6 @@ new Products('usb','img/usb.gif')
 new Products('water-can','img/water-can.jpg')
 new Products('wine-glass','img/wine-glass.jpg')
 
-sectionDisplay.addEventListener('click', handelClick);
+sectionEL.addEventListener('click', handleClick);
 
 displayedImages();
