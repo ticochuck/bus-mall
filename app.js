@@ -5,8 +5,10 @@ var imageTwoEl = document.getElementById('image2');
 var imageThreeEl = document.getElementById('image3');
 var sectionEL = document.getElementById('imagesDisplayed');
 
+//array that contains all product information
 var allProducts = [];
 
+//create Object Constructor
 function Products(alt, src, title) {
   this.alt = alt;
   this.title = title;
@@ -17,39 +19,48 @@ function Products(alt, src, title) {
   allProducts.push(this);
 }
 
+//calculates random number 
 function random(max) {
   return Math.floor(Math.random() * max);
 }
 
+//Display Images to screen - calculation to avoid repeats
 function displayedImages() {
-  var leftPic = random(allProducts.length);
-  var middlePic = random(allProducts.length);
-  var rightPic = random(allProducts.length);
-  
-  
-  while ((middlePic === leftPic) || (middlePic === rightPic) || (leftPic === rightPic)) {
-    var rightPic = random(allProducts.length);
-    var middlePic = random(allProducts.length);
-    var rightPic = random(allProducts.length); 
+  do {
+  var pic1 = random(allProducts.length);
+  var pic2 = random(allProducts.length);
+  var pic3 = random(allProducts.length);
   }
-    imageOneEl.alt = allProducts[leftPic].alt;
-    imageOneEl.src = allProducts[leftPic].src;
-    imageOneEl.title = allProducts[leftPic].title;
-    allProducts[leftPic].viewed++;
-    allProducts[leftPic].lastdisplayed = true;  
-   
-    imageTwoEl.alt = allProducts[middlePic].alt;
-    imageTwoEl.src = allProducts[middlePic].src;
-    imageTwoEl.title = allProducts[middlePic].title;
-    allProducts[middlePic].viewed++;
-    allProducts[middlePic].lastdisplayed = true;
+  while ((pic1 === pic2) || (pic2 === pic3) || (pic1 === pic3) || (allProducts[pic1].lastdisplayed === true) || (allProducts[pic2].lastdisplayed === true) || (allProducts[pic3].lastdisplayed === true));
+  // {
+  //   var rightPic = random(allProducts.length);
+  //   var middlePic = random(allProducts.length);
+  //   var rightPic = random(allProducts.length); 
+  // }
+
+  for (var h = 0; h < allProducts.length; h++) {
+    allProducts[h].lastdisplayed = false;
+  }
   
-    imageThreeEl.alt = allProducts[rightPic].alt;
-    imageThreeEl.src = allProducts[rightPic].src;
-    imageThreeEl.title = allProducts[rightPic].title;
-    allProducts[rightPic].viewed++;
-    allProducts[rightPic].lastdisplayed = true;
+    imageOneEl.alt = allProducts[pic1].alt;
+    imageOneEl.src = allProducts[pic1].src;
+    imageOneEl.title = allProducts[pic1].title;
+    allProducts[pic1].viewed++;
+    allProducts[pic1].lastdisplayed = true;  
+   
+    imageTwoEl.alt = allProducts[pic2].alt;
+    imageTwoEl.src = allProducts[pic2].src;
+    imageTwoEl.title = allProducts[pic2].title;
+    allProducts[pic2].viewed++;
+    allProducts[pic2].lastdisplayed = true;
+  
+    imageThreeEl.alt = allProducts[pic3].alt;
+    imageThreeEl.src = allProducts[pic3].src;
+    imageThreeEl.title = allProducts[pic3].title;
+    allProducts[pic3].viewed++;
+    allProducts[pic3].lastdisplayed = true;
 } 
+
 var votes = 0;
 
 function handleClick(e) {
@@ -60,13 +71,12 @@ function handleClick(e) {
         votes++;
       }
   }
-  if (votes === 7) {
-    alert('Thank you for voting')
-    votes = 0;
-  }
+  // if (votes === 7) {
+  //   alert('Thank you for voting')
+  //   votes = 0;
+  // }
   displayedImages();
 }
-
 
 new Products('bag','img/bag.jpg','bag')
 new Products('banana','img/banana.jpg','banana')
