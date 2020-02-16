@@ -32,12 +32,7 @@ function displayedImages() {
   var pic3 = random(allProducts.length);
   }
   while ((pic1 === pic2) || (pic2 === pic3) || (pic1 === pic3) || (allProducts[pic1].lastdisplayed === true) || (allProducts[pic2].lastdisplayed === true) || (allProducts[pic3].lastdisplayed === true));
-  // {
-  //   var rightPic = random(allProducts.length);
-  //   var middlePic = random(allProducts.length);
-  //   var rightPic = random(allProducts.length); 
-  // }
-
+  
   for (var h = 0; h < allProducts.length; h++) {
     allProducts[h].lastdisplayed = false;
   }
@@ -62,21 +57,39 @@ function displayedImages() {
 } 
 
 var votes = 0;
+// var tableMain = document.getElementById('resultsSection');
 
 function handleClick(e) {
   var clickedImage = e.target.title;
   for(var i = 0; i < allProducts.length; i++){
       if (clickedImage === allProducts[i].title){
         allProducts[i].clicked++;
+
         votes++;
+        if (votes === 7) {
+          alert('Thank you for voting')
+          votes = 0;
+          for (var x = 0; x < allProducts.length; x++) {
+            var tableMain = document.getElementById('resultsSection');
+            var tableData = document.createElement('p');
+            tableData.textContent = 'Product: ' + allProducts[x].title + ' | Times Displayed: ' + allProducts[x].viewed + ' | Times Clicked: ' + allProducts[x].clicked;
+            tableMain.appendChild(tableData);  
+          }
+        // resetValues();
+        }
       }
   }
-  // if (votes === 7) {
-  //   alert('Thank you for voting')
-  //   votes = 0;
-  // }
+  
   displayedImages();
 }
+
+
+
+// function resetValues() {
+//   allProducts.clicked = 0;
+//   allProducts.viewed = 0;
+//   allProducts.lastdisplayed = false;
+// }
 
 new Products('bag','img/bag.jpg','bag')
 new Products('banana','img/banana.jpg','banana')
@@ -100,5 +113,8 @@ new Products('water-can','img/water-can.jpg','water-can')
 new Products('wine-glass','img/wine-glass.jpg','wine-glass')
 
 sectionEL.addEventListener('click', handleClick);
+
+
+
 
 displayedImages();
