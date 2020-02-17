@@ -16,6 +16,7 @@ function Products(alt, src, title) {
   this.viewed = 0;
   this.clicked = 0;
   this.lastdisplayed = false;
+  this.percentage = 0;
   allProducts.push(this);
 }
 
@@ -61,35 +62,43 @@ var votes = 0;
 
 function handleClick(e) {
   var clickedImage = e.target.title;
+  
   for(var i = 0; i < allProducts.length; i++){
       if (clickedImage === allProducts[i].title){
         allProducts[i].clicked++;
-
         votes++;
-        if (votes === 7) {
-          alert('Thank you for voting')
+        if (votes === 25) {
+          alert('Thank you for voting');
           votes = 0;
+          
           for (var x = 0; x < allProducts.length; x++) {
+            if (allProducts[x].viewed === 0) {
+              allProducts[x].percentage = 0;
+            } else {
+              allProducts[x].percentage = ((allProducts[x].clicked/allProducts[x].viewed)*100).toFixed(0);
+            }
+            
             var tableMain = document.getElementById('resultsSection');
             var tableData = document.createElement('p');
-            tableData.textContent = 'Product: ' + allProducts[x].title + ' | Times Displayed: ' + allProducts[x].viewed + ' | Times Clicked: ' + allProducts[x].clicked;
+            tableData.textContent = `Product Name: ${allProducts[x].title} | Times Displayed: ${allProducts[x].viewed} | Times Clicked: ${allProducts[x].clicked} | Percent: ${allProducts[x].percentage}%`;
             tableMain.appendChild(tableData);  
           }
-        // resetValues();
+        resetValues();
         }
       }
   }
-  
   displayedImages();
+  return;
 }
 
-
-
-// function resetValues() {
-//   allProducts.clicked = 0;
-//   allProducts.viewed = 0;
-//   allProducts.lastdisplayed = false;
-// }
+function resetValues() {
+  for (var y = 0; y <allProducts.length; y++){
+    allProducts[y].clicked = 0;
+    allProducts[y].viewed = 0;
+    allProducts[y].percentage = 0;
+    allProducts[y].lastdisplayed = false;
+  }
+}
 
 new Products('bag','img/bag.jpg','bag')
 new Products('banana','img/banana.jpg','banana')
@@ -113,8 +122,5 @@ new Products('water-can','img/water-can.jpg','water-can')
 new Products('wine-glass','img/wine-glass.jpg','wine-glass')
 
 sectionEL.addEventListener('click', handleClick);
-
-
-
 
 displayedImages();
