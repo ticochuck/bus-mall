@@ -4,11 +4,10 @@ var imageOneEl = document.getElementById('image1');
 var imageTwoEl = document.getElementById('image2');
 var imageThreeEl = document.getElementById('image3');
 var sectionEL = document.getElementById('imagesDisplayed');
+var votes = 0; //number of times a user can vote for an image
+var allProducts = []; //array that contains all product information
 
-//array that contains all product information
-var allProducts = [];
-
-//create Object Constructor
+//Object Constructor
 function Products(alt, src, title) {
   this.alt = alt;
   this.title = title;
@@ -57,9 +56,6 @@ function displayedImages() {
     allProducts[pic3].lastdisplayed = true;
 } 
 
-var votes = 0;
-// var tableMain = document.getElementById('resultsSection');
-
 function handleClick(e) {
   var clickedImage = e.target.title;
   
@@ -70,35 +66,35 @@ function handleClick(e) {
         if (votes === 25) {
           alert('Thank you for voting');
           votes = 0;
-          
+          sectionEL.removeEventListener('click', handleClick);
           for (var x = 0; x < allProducts.length; x++) {
             if (allProducts[x].viewed === 0) {
               allProducts[x].percentage = 0;
             } else {
               allProducts[x].percentage = ((allProducts[x].clicked/allProducts[x].viewed)*100).toFixed(0);
-            }
-            
+            }          
             var tableMain = document.getElementById('resultsSection');
             var tableData = document.createElement('p');
             tableData.textContent = `Product Name: ${allProducts[x].title} | Times Displayed: ${allProducts[x].viewed} | Times Clicked: ${allProducts[x].clicked} | Percent: ${allProducts[x].percentage}%`;
             tableMain.appendChild(tableData);  
           }
-        resetValues();
+        // resetValues();
         }
       }
   }
   displayedImages();
-  return;
 }
 
-function resetValues() {
-  for (var y = 0; y <allProducts.length; y++){
-    allProducts[y].clicked = 0;
-    allProducts[y].viewed = 0;
-    allProducts[y].percentage = 0;
-    allProducts[y].lastdisplayed = false;
-  }
-}
+//This function will be used in case I want to have more than 1 round in the same browser session. 
+
+// function resetValues() {
+//   for (var y = 0; y <allProducts.length; y++){
+//     allProducts[y].clicked = 0;
+//     allProducts[y].viewed = 0;
+//     allProducts[y].percentage = 0;
+//     allProducts[y].lastdisplayed = false;
+//   }
+// }
 
 new Products('bag','img/bag.jpg','bag')
 new Products('banana','img/banana.jpg','banana')
@@ -123,4 +119,4 @@ new Products('wine-glass','img/wine-glass.jpg','wine-glass')
 
 sectionEL.addEventListener('click', handleClick);
 
-displayedImages();
+displayedImages(); 

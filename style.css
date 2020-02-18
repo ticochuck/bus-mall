@@ -1,21 +1,53 @@
-img {
+
+body {
   margin: 25px;
-  width: 250px;
+  background-color: #E5DCC0;
+}
+
+header {
+  display: inline;
+  width: auto;
+}
+
+#busLogo {
+  width: 100px;
+  height: 100px;
+  display: inline;
+  vertical-align: top;
+}
+
+h1 {
+  display: inline-block;
+  height: 100px;
+  font-family: 'Krona One', sans-serif;
+  font-size: 50px;
+  color: rebeccapurple;
+  vertical-align: middle;
+  padding-top: 70px;
+}
+
+span {
+  font-size: 22px;
+  font-family: Helvetica,Arial,sans-serif;
+  line-height: 1.5;
+  margin: 25px 0px;
+}
+
+strong {
+  font-weight: bold;
+}
+
+img {
+  margin: 15px;
+  width: 300px;
   height: 300px;
 } 
 
-h1 {
-  font-size: 40px;
-  font-weight: bold;
-  color: blue;
-  text-align: center;
-  margin: 10px;
-}
-
 h2 {
-  margin: 15px;
+  font-family: 'PT Sans', sans-serif;
+  margin: 15px 0px; 
   font-size: 32px;
-  color: red;
+  color: rgb(211, 51, 144);
   text-align: left;
 }
 
