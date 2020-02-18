@@ -1,12 +1,19 @@
-
-body {
-  margin: 25px;
-  background-color: #E5DCC0;
+html {
+  margin-left: 20%;
 }
 
+body {
+  margin: 55px;
+}
+
+main {
+  width: 960px;
+  margin: 15px;
+  padding: 25px 25px 1px 25px;
+}
 header {
-  display: inline;
-  width: auto;
+  width: 960px;
+  border-bottom: gray 3px solid;
 }
 
 #busLogo {
@@ -14,32 +21,49 @@ header {
   height: 100px;
   display: inline;
   vertical-align: top;
+  margin-right: 15px;
+  border: no;
 }
 
 h1 {
   display: inline-block;
-  height: 100px;
+  height: 50px;
   font-family: 'Krona One', sans-serif;
   font-size: 50px;
   color: rebeccapurple;
-  vertical-align: middle;
-  padding-top: 70px;
+  padding-top: 65px;
+  padding-bottom: 20px;
+}
+
+#intructions {
+  width: 90%;
 }
 
 span {
+  display: block;
   font-size: 22px;
   font-family: Helvetica,Arial,sans-serif;
   line-height: 1.5;
-  margin: 25px 0px;
+  margin: 20px 0px;
 }
 
 strong {
   font-weight: bold;
 }
 
+#imagesDisplayed {
+  width: 90%;
+  display: block;
+}
+
+#threePics {
+  margin: 45px auto;
+}
+
 img {
-  margin: 15px;
-  width: 300px;
+  display: inline-block;
+  border: 5px solid black;
+  width: 275px;
   height: 300px;
 } 
 
@@ -51,11 +75,46 @@ h2 {
   text-align: left;
 }
 
-p {
-  letter-spacing: 1px;
-  text-indent: 2%;
+ p {
   font-size: 22px;
+  font-family: Helvetica,Arial,sans-serif;
+  line-height: 1.2;
   color: black;
   text-align: left;
   margin: 10px;
 }
+
+footer {
+  margin-top: 45px;
+  width: 960px;
+  border-top: gray 3px solid;
+}
+
+#footerNotes {
+  font-family: Helvetica,Arial,sans-serif;
+  font-size: 16px;
+  text-align: center;
+}
+
+#brandName {
+  color: rebeccapurple;
+}
+
+#resultsSection {
+  /* width: auto; */
+  display: block;
+}
+
+a {
+  margin-top: 25px;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: rebeccapurple;
+  width: 300px;
+  text-align: center;
+  display: block;
+  font-family: 'PT Sans', sans-serif;
+  text-decoration: none;
+}
+

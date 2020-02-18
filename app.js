@@ -1,11 +1,11 @@
 'use strict';
 
-var imageOneEl = document.getElementById('image1');
-var imageTwoEl = document.getElementById('image2');
-var imageThreeEl = document.getElementById('image3');
+var imageName = document.getElementById('');
 var sectionEL = document.getElementById('imagesDisplayed');
 var votes = 0; //number of times a user can vote for an image
 var allProducts = []; //array that contains all product information
+
+document.getElementById("voteAgain").style.visibility = "hidden";
 
 //Object Constructor
 function Products(alt, src, title) {
@@ -36,65 +36,74 @@ function displayedImages() {
   for (var h = 0; h < allProducts.length; h++) {
     allProducts[h].lastdisplayed = false;
   }
-  
-    imageOneEl.alt = allProducts[pic1].alt;
-    imageOneEl.src = allProducts[pic1].src;
-    imageOneEl.title = allProducts[pic1].title;
+
+    renderImage('image1',`${allProducts[pic1].src}`,`${allProducts[pic1].alt}`,`${allProducts[pic1].title}`);
     allProducts[pic1].viewed++;
     allProducts[pic1].lastdisplayed = true;  
-   
-    imageTwoEl.alt = allProducts[pic2].alt;
-    imageTwoEl.src = allProducts[pic2].src;
-    imageTwoEl.title = allProducts[pic2].title;
+    
+    renderImage('image2',`${allProducts[pic2].src}`,`${allProducts[pic2].alt}`,`${allProducts[pic2].title}`);
     allProducts[pic2].viewed++;
     allProducts[pic2].lastdisplayed = true;
   
-    imageThreeEl.alt = allProducts[pic3].alt;
-    imageThreeEl.src = allProducts[pic3].src;
-    imageThreeEl.title = allProducts[pic3].title;
+    renderImage('image3',`${allProducts[pic3].src}`,`${allProducts[pic3].alt}`,`${allProducts[pic3].title}`);
     allProducts[pic3].viewed++;
     allProducts[pic3].lastdisplayed = true;
 } 
 
 function handleClick(e) {
   var clickedImage = e.target.title;
-  
   for(var i = 0; i < allProducts.length; i++){
-      if (clickedImage === allProducts[i].title){
-        allProducts[i].clicked++;
-        votes++;
-        if (votes === 25) {
-          alert('Thank you for voting');
-          votes = 0;
-          sectionEL.removeEventListener('click', handleClick);
-          for (var x = 0; x < allProducts.length; x++) {
-            if (allProducts[x].viewed === 0) {
-              allProducts[x].percentage = 0;
-            } else {
-              allProducts[x].percentage = ((allProducts[x].clicked/allProducts[x].viewed)*100).toFixed(0);
-            }          
-            var tableMain = document.getElementById('resultsSection');
-            var tableData = document.createElement('p');
-            tableData.textContent = `Product Name: ${allProducts[x].title} | Times Displayed: ${allProducts[x].viewed} | Times Clicked: ${allProducts[x].clicked} | Percent: ${allProducts[x].percentage}%`;
-            tableMain.appendChild(tableData);  
+    if (clickedImage === allProducts[i].title){
+      allProducts[i].clicked++;
+      votes++;
+      if (votes === 25) {
+        alert('Thank you for voting! Click ok to see your results.');
+        votes = 0;
+
+        renderData('resultsSection', 'h2', 'Results from your selections');
+        document.getElementById("voteAgain").style.visibility = "visible";
+        
+        sectionEL.removeEventListener('click', handleClick);
+        for (var x = 0; x < allProducts.length; x++) {
+          if (allProducts[x].viewed === 0) {
+            allProducts[x].percentage = 0;
+          } else {
+            allProducts[x].percentage = ((allProducts[x].clicked/allProducts[x].viewed)*100).toFixed(0);
           }
-        // resetValues();
+          renderData('resultsSection', 'p', `Product Name: ${allProducts[x].title} | Times Displayed: ${allProducts[x].viewed} | Times Clicked: ${allProducts[x].clicked} | Percent: ${allProducts[x].percentage}%`);  
         }
+        resetValues();
       }
+    }
   }
   displayedImages();
 }
 
-//This function will be used in case I want to have more than 1 round in the same browser session. 
+// This function will be used only in case I want to have more than 1 round in the same browser session. 
+function resetValues() {
+  for (var y = 0; y <allProducts.length; y++){
+    allProducts[y].clicked = 0;
+    allProducts[y].viewed = 0;
+    allProducts[y].percentage = 0;
+    allProducts[y].lastdisplayed = false;
+  }
+}
 
-// function resetValues() {
-//   for (var y = 0; y <allProducts.length; y++){
-//     allProducts[y].clicked = 0;
-//     allProducts[y].viewed = 0;
-//     allProducts[y].percentage = 0;
-//     allProducts[y].lastdisplayed = false;
-//   }
-// }
+//renders images to the page
+function renderImage(elem, src, alt, title, ) {
+  imageName = document.getElementById(elem);  
+  imageName.src = src;
+  imageName.alt = alt;
+  imageName.title = title;
+}
+
+//funtion to render data to the page
+function renderData(parentId, elem, elemContent) {
+  var parentEL = document.getElementById(parentId);
+  var pageEl = document.createElement(elem);
+  pageEl.textContent = elemContent;
+  parentEL.appendChild(pageEl); 
+}
 
 new Products('bag','img/bag.jpg','bag')
 new Products('banana','img/banana.jpg','banana')
