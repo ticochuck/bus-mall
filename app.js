@@ -4,6 +4,9 @@ var imageName = document.getElementById('');
 var sectionEL = document.getElementById('imagesDisplayed');
 var votes = 0; //number of times a user can vote for an image
 var allProducts = []; //array that contains all product information
+var labelsArray = [];
+var viewedData = [];
+var clickedData = [];
 
 document.getElementById("voteAgain").style.visibility = "hidden";
 
@@ -57,8 +60,13 @@ function handleClick(e) {
       allProducts[i].clicked++;
       votes++;
       if (votes === 25) {
-        alert('Thank you for voting! Click ok to see your results.');
         votes = 0;
+        for (var t = 0; t <allProducts.length; t++) {
+          labelsArray.push(allProducts[t].title);
+          viewedData.push(allProducts[t].viewed);
+          clickedData.push(allProducts[t].clicked);
+        }
+        renderChart();
 
         renderData('resultsSection', 'h2', 'Results from your selections');
         document.getElementById("voteAgain").style.visibility = "visible";
@@ -103,6 +111,76 @@ function renderData(parentId, elem, elemContent) {
   var pageEl = document.createElement(elem);
   pageEl.textContent = elemContent;
   parentEL.appendChild(pageEl); 
+}
+
+function renderChart() {
+  var ctx = document.getElementById('myData');
+  var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labelsArray,
+        datasets: [{
+            label: 'Times Displayed',
+            data: viewedData, clickedData,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+  });
 }
 
 new Products('bag','img/bag.jpg','bag')
