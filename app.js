@@ -7,6 +7,7 @@ var allProducts = []; //array that contains all product information
 var labelsArray = [];
 var viewedData = [];
 var clickedData = [];
+var chartColor = [];
 
 document.getElementById("voteAgain").style.visibility = "hidden";
 
@@ -20,6 +21,20 @@ function Products(alt, src, title) {
   this.lastdisplayed = false;
   this.percentage = 0;
   allProducts.push(this);
+}
+
+//generates randon rgba color and pushes it to chartColor array
+function randomColor() {
+  for (var k = 0; k < allProducts.length; k++) {
+    for (var l = 0; l < 3; l++) {
+      var r = (Math.floor(Math.random()*256));
+      var g = (Math.floor(Math.random()*256));
+      var b = (Math.floor(Math.random()*256));
+      var a = (Math.random().toFixed(1));
+      var rgba = `rgb(${r},${g},${b},${a})`;
+    } 
+    chartColor.push(rgba);  
+  }
 }
 
 //calculates random number 
@@ -53,19 +68,24 @@ function displayedImages() {
     allProducts[pic3].lastdisplayed = true;
 } 
 
+//pushes chart info to different arrays variables
+function chartData() {
+  for (var t = 0; t <allProducts.length; t++) {
+    labelsArray.push(allProducts[t].title);
+    viewedData.push(allProducts[t].viewed);
+    clickedData.push(allProducts[t].clicked);
+  }
+}
+
 function handleClick(e) {
   var clickedImage = e.target.title;
   for(var i = 0; i < allProducts.length; i++){
     if (clickedImage === allProducts[i].title){
       allProducts[i].clicked++;
       votes++;
-      if (votes === 25) {
+      if (votes === 5) {
         votes = 0;
-        for (var t = 0; t <allProducts.length; t++) {
-          labelsArray.push(allProducts[t].title);
-          viewedData.push(allProducts[t].viewed);
-          clickedData.push(allProducts[t].clicked);
-        }
+        chartData();
         renderChart();
 
         renderData('resultsSection', 'h2', 'Results from your selections');
@@ -122,29 +142,30 @@ function renderChart() {
         datasets: [{
             label: 'Times Displayed',
             data: viewedData, clickedData,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
+            backgroundColor: chartColor,
+            // [
+            //     'rgba(255, 99, 132, 0.2)',
+            //     'rgba(54, 162, 235, 0.2)',
+            //     'rgba(255, 206, 86, 0.2)',
+            //     'rgba(75, 192, 192, 0.2)',
+            //     'rgba(153, 102, 255, 0.2)',
+            //     'rgba(255, 99, 132, 0.2)',
+            //     'rgba(54, 162, 235, 0.2)',
+            //     'rgba(255, 206, 86, 0.2)',
+            //     'rgba(75, 192, 192, 0.2)',
+            //     'rgba(153, 102, 255, 0.2)',
+            //     'rgba(255, 99, 132, 0.2)',
+            //     'rgba(54, 162, 235, 0.2)',
+            //     'rgba(255, 206, 86, 0.2)',
+            //     'rgba(75, 192, 192, 0.2)',
+            //     'rgba(153, 102, 255, 0.2)',
+            //     'rgba(255, 99, 132, 0.2)',
+            //     'rgba(54, 162, 235, 0.2)',
+            //     'rgba(255, 206, 86, 0.2)',
+            //     'rgba(75, 192, 192, 0.2)',
+            //     'rgba(153, 102, 255, 0.2)',
+            //     'rgba(255, 159, 64, 0.2)'
+            // ],
             borderColor: [
                 'rgba(255, 99, 132, 1)',
                 'rgba(54, 162, 235, 1)',
@@ -207,3 +228,4 @@ new Products('wine-glass','img/wine-glass.jpg','wine-glass')
 sectionEL.addEventListener('click', handleClick);
 
 displayedImages(); 
+randomColor();
