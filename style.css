@@ -51,19 +51,20 @@ strong {
 
 #imagesDisplayed {
   vertical-align: top;
-  margin-left: 11%;
+  margin-left: 4%;
+  margin-top: 5%;
   width: auto;
   display: inline-block;
 }
 
 #resultsSection {
-  margin-right: 10%;
-  display: inline-block;
+  margin-right: 20%;
+  display: inline;
   float: right;
 }
 
 #threePics {
-  margin: 45px auto;
+  /* margin: 25px auto; */
 }
 
 img {
@@ -120,4 +121,3 @@ a {
   text-decoration: none;
   font-family: 'PT Sans', sans-serif;
 }
-
