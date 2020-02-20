@@ -8,6 +8,7 @@ var labelsArray = [];
 var viewedData = [];
 var clickedData = [];
 var chartColor = [];
+var chartBorder = [];
 
 document.getElementById("voteAgain").style.visibility = "hidden";
 
@@ -26,14 +27,17 @@ function Products(alt, src, title) {
 //generates randon rgba color and pushes it to chartColor array
 function randomColor() {
   for (var k = 0; k < allProducts.length; k++) {
-    for (var l = 0; l < 3; l++) {
-      var r = (Math.floor(Math.random()*256));
-      var g = (Math.floor(Math.random()*256));
-      var b = (Math.floor(Math.random()*256));
+      var r = (Math.floor(Math.random()*200));
+      var g = (Math.floor(Math.random()*200));
+      var b = (Math.floor(Math.random()*180));
       var a = (Math.random().toFixed(1));
-      var rgba = `rgb(${r},${g},${b},${a})`;
-    } 
-    chartColor.push(rgba);  
+      var rgba = `rgba(${r},${g},${b},${a})`;
+      
+      // Uncomment this to use random bar colors
+      // chartColor.push(rgba); 
+             
+      chartColor.push('rgba(102,51,153,0.5)');
+      chartBorder.push('rgba(211, 51, 144,0.5)'); 
   }
 }
 
@@ -83,7 +87,7 @@ function handleClick(e) {
     if (clickedImage === allProducts[i].title){
       allProducts[i].clicked++;
       votes++;
-      if (votes === 5) {
+      if (votes === 15) {
         votes = 0;
         chartData();
         renderChart();
@@ -141,56 +145,18 @@ function renderChart() {
       labels: labelsArray,
         datasets: [{
             label: 'Times Displayed',
-            data: viewedData, clickedData,
+            data: viewedData,
             backgroundColor: chartColor,
-            // [
-            //     'rgba(255, 99, 132, 0.2)',
-            //     'rgba(54, 162, 235, 0.2)',
-            //     'rgba(255, 206, 86, 0.2)',
-            //     'rgba(75, 192, 192, 0.2)',
-            //     'rgba(153, 102, 255, 0.2)',
-            //     'rgba(255, 99, 132, 0.2)',
-            //     'rgba(54, 162, 235, 0.2)',
-            //     'rgba(255, 206, 86, 0.2)',
-            //     'rgba(75, 192, 192, 0.2)',
-            //     'rgba(153, 102, 255, 0.2)',
-            //     'rgba(255, 99, 132, 0.2)',
-            //     'rgba(54, 162, 235, 0.2)',
-            //     'rgba(255, 206, 86, 0.2)',
-            //     'rgba(75, 192, 192, 0.2)',
-            //     'rgba(153, 102, 255, 0.2)',
-            //     'rgba(255, 99, 132, 0.2)',
-            //     'rgba(54, 162, 235, 0.2)',
-            //     'rgba(255, 206, 86, 0.2)',
-            //     'rgba(75, 192, 192, 0.2)',
-            //     'rgba(153, 102, 255, 0.2)',
-            //     'rgba(255, 159, 64, 0.2)'
-            // ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-        }]
+            borderColor: chartBorder, 
+            borderWidth: 2
+        }, 
+        {
+          label: 'Times Clicked',
+          data: clickedData,
+          backgroundColor: chartBorder,
+          borderColor: chartColor, 
+          borderWidth: 2
+      }]
     },
     options: {
         scales: {
