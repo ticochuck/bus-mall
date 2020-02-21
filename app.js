@@ -90,7 +90,7 @@ function handleClick(e) {
     if (clickedImage === allProducts[i].title){
       allProducts[i].clicked++;
       votes++;
-      if (votes === 15) {
+      if (votes === 25) {
         votes = 0;
         chartData();
         renderChart();
