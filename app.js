@@ -16,12 +16,12 @@ var chartBorder = [];
 document.getElementById("voteAgain").style.visibility = "hidden";
 
 //Object Constructor
-function Products(alt, src, title) {
+function Products(alt, src, title, viewed=0, clicked=0) {
   this.alt = alt;
-  this.title = title;
   this.src = src;
-  this.viewed = 0;
-  this.clicked = 0;
+  this.title = title;
+  this.viewed = viewedData;
+  this.clicked = clicked;
   this.lastdisplayed = false;
   this.percentage = 0;
   allProducts.push(this);
@@ -30,13 +30,12 @@ function Products(alt, src, title) {
 //generates randon rgba color and pushes it to chartColor array
 function randomColor() {
   for (var k = 0; k < allProducts.length; k++) {
-      var r = (Math.floor(Math.random()*200));
-      var g = (Math.floor(Math.random()*200));
-      var b = (Math.floor(Math.random()*180));
-      var a = (Math.random().toFixed(1));
-      var rgba = `rgba(${r},${g},${b},${a})`;
-      
-      // Uncomment the line below to use random bar colors 
+    // Uncomment the lines below to use random bar colors  
+      // var r = (Math.floor(Math.random()*200));
+      // var g = (Math.floor(Math.random()*200));
+      // var b = (Math.floor(Math.random()*180));
+      // var a = (Math.random().toFixed(1));
+      // var rgba = `rgba(${r},${g},${b},${a})`;
       // chartColor.push(rgba);             
       chartColor.push('rgba(102,51,153,0.5)');
       chartBorder.push('rgba(211, 51, 144,0.5)'); 
@@ -84,6 +83,11 @@ function chartData() {
   }
 }
 
+function toLocalStorage() {
+  var sTringArray = JSON.stringify(allProducts);
+  localStorage.setItem('swProducts',sTringArray);
+}
+
 function handleClick(e) {
   var clickedImage = e.target.title;
   for(var i = 0; i < allProducts.length; i++){
@@ -92,6 +96,7 @@ function handleClick(e) {
       votes++;
       if (votes === 25) {
         votes = 0;
+        toLocalStorage();
         chartData();
         renderChart();
         renderData('resultsPlaceHolder', 'h3', 'Results from your selections');
@@ -174,28 +179,48 @@ function renderChart() {
   });
 }
 
-new Products('bag','img/bag.jpg','bag')
-new Products('banana','img/banana.jpg','banana')
-new Products('bathroom','img/bathroom.jpg','bathroom')
-new Products('boots','img/boots.jpg','boots')
-new Products('breakfast','img/breakfast.jpg','breakfast')
-new Products('bubblegum','img/bubblegum.jpg','bubblegum')
-new Products('chair','img/chair.jpg','chair')
-new Products('cthulhu','img/cthulhu.jpg','cthulhu')
-new Products('dog-duck','img/dog-duck.jpg','dog-duck')
-new Products('dragon','img/dragon.jpg','dragon')
-new Products('pen','img/pen.jpg','pen')
-new Products('pet-sweep','img/pet-sweep.jpg','pet-sweep')
-new Products('scissors','img/scissors.jpg','scissors')
-new Products('shark','img/shark.jpg','shark')
-new Products('sweep','img/sweep.png','sweep')
-new Products('tauntaun','img/tauntaun.jpg','tauntaun')
-new Products('unicorn','img/unicorn.jpg','unicorn')
-new Products('usb','img/usb.gif','usb')
-new Products('water-can','img/water-can.jpg','water-can')
-new Products('wine-glass','img/wine-glass.jpg','wine-glass')
+
+function populateData(){
+  if (localStorage.getItem('swProducts')) {
+    console.log('There is local Storage');
+    var allStorageProducts = JSON.parse(localStorage.getItem('swProducts'));
+    console.log(allStorageProducts);
+    for (var i = 0; i < allStorageProducts.length; i++) {
+      new Products(
+        allStorageProducts[i].alt,
+        allStorageProducts[i].src, 
+        allStorageProducts[i].title,
+        allStorageProducts[i].viewed,
+        allStorageProducts[i].clicked);
+    }
+  } else {
+      console.log('There is no localStorage');
+      new Products('bag','img/bag.jpg','bag')
+      new Products('banana','img/banana.jpg','banana')
+      new Products('bathroom','img/bathroom.jpg','bathroom')
+      new Products('boots','img/boots.jpg','boots')
+      new Products('breakfast','img/breakfast.jpg','breakfast')
+      new Products('bubblegum','img/bubblegum.jpg','bubblegum')
+      new Products('chair','img/chair.jpg','chair')
+      new Products('cthulhu','img/cthulhu.jpg','cthulhu')
+      new Products('dog-duck','img/dog-duck.jpg','dog-duck')
+      new Products('dragon','img/dragon.jpg','dragon')
+      new Products('pen','img/pen.jpg','pen')
+      new Products('pet-sweep','img/pet-sweep.jpg','pet-sweep')
+      new Products('scissors','img/scissors.jpg','scissors')
+      new Products('shark','img/shark.jpg','shark')
+      new Products('sweep','img/sweep.png','sweep')
+      new Products('tauntaun','img/tauntaun.jpg','tauntaun')
+      new Products('unicorn','img/unicorn.jpg','unicorn')
+      new Products('usb','img/usb.gif','usb')
+      new Products('water-can','img/water-can.jpg','water-can')
+      new Products('wine-glass','img/wine-glass.jpg','wine-glass')
+    }
+}
+
 
 sectionEL.addEventListener('click', handleClick);
 
+populateData();
 displayedImages(); 
 randomColor();
