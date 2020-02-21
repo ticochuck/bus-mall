@@ -8,7 +8,7 @@
   </head>
   <body>
     <header>
-      <img id="busLogo" alt="bus" title="bus" src="/img/busmalllogo.PNG">
+      <a class="busLogo" href="index.html"><img class="busLogo" alt="bus" title="bus" src="/img/busmalllogo.PNG"></a>
       <h1>bus mall</h1>
     </header>
     <main>
@@ -17,6 +17,10 @@
         <span>Thank you for participating in the BusMall market analysis project. You will be presented with 3 different products at a time. Your goal is to <strong>click on the item you are most likely to purchase.</strong> You will do this 25 times. We will display some information regarding your selections when you are done with this test. Thank you again for your participation!</span>
       </section>
      
+      <section id="resultsSection">
+          <div id="resultsPlaceHolder"></div>
+      </section>
+
       <section id="imagesDisplayed">
         <div id = "threePics">
           <img id="image1" alt="" title="" src="">
@@ -24,9 +28,7 @@
           <img id="image3" alt="" title="" src="">
         </div>
       </section>
-      <section id="resultsSection">
-          
-      </section>
+      
       <canvas id="myData"></canvas>
       <h2 id="thankYou">Thank you for your participation!</h2>
       <a id="voteAgain" href="index.html">Click Here To Vote Again</a>
