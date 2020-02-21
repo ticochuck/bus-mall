@@ -4,9 +4,12 @@ var imageName = document.getElementById('');
 var sectionEL = document.getElementById('imagesDisplayed');
 var votes = 0; //number of times a user can vote for an image
 var allProducts = []; //array that contains all product information
+
+//var arrays for chart data display
 var labelsArray = [];
 var viewedData = [];
 var clickedData = [];
+var percentData = [];
 var chartColor = [];
 var chartBorder = [];
 
@@ -33,9 +36,8 @@ function randomColor() {
       var a = (Math.random().toFixed(1));
       var rgba = `rgba(${r},${g},${b},${a})`;
       
-      // Uncomment this to use random bar colors
-      // chartColor.push(rgba); 
-             
+      // Uncomment the line below to use random bar colors 
+      // chartColor.push(rgba);             
       chartColor.push('rgba(102,51,153,0.5)');
       chartBorder.push('rgba(211, 51, 144,0.5)'); 
   }
@@ -78,6 +80,7 @@ function chartData() {
     labelsArray.push(allProducts[t].title);
     viewedData.push(allProducts[t].viewed);
     clickedData.push(allProducts[t].clicked);
+    // percentData.push(allProducts[t].percentage);
   }
 }
 
@@ -91,20 +94,21 @@ function handleClick(e) {
         votes = 0;
         chartData();
         renderChart();
-
-        renderData('resultsSection', 'h2', 'Results from your selections');
+        renderData('resultsPlaceHolder', 'h3', 'Results from your selections');
         document.getElementById("voteAgain").style.visibility = "visible";
         
         sectionEL.removeEventListener('click', handleClick);
         for (var x = 0; x < allProducts.length; x++) {
           if (allProducts[x].viewed === 0) {
             allProducts[x].percentage = 0;
+            percentData.push(allProducts[x].percentage);
           } else {
-            allProducts[x].percentage = ((allProducts[x].clicked/allProducts[x].viewed)*100).toFixed(0);
+            allProducts[x].percentage = parseFloat(((allProducts[x].clicked/allProducts[x].viewed)*100).toFixed(0));
+            percentData.push(allProducts[x].percentage);
           }
-          renderData('resultsSection', 'p', `Product Name: ${allProducts[x].title} | Times Displayed: ${allProducts[x].viewed} | Times Clicked: ${allProducts[x].clicked} | Percent: ${allProducts[x].percentage}%`);  
+          renderData('resultsPlaceHolder', 'p', `Product Name: ${allProducts[x].title} | Times Displayed: ${allProducts[x].viewed} | Times Clicked: ${allProducts[x].clicked} | Percent: ${allProducts[x].percentage}%`);  
         }
-        resetValues();
+        // resetValues();
       }
     }
   }
@@ -144,11 +148,11 @@ function renderChart() {
     data: {
       labels: labelsArray,
         datasets: [{
-            label: 'Times Displayed',
-            data: viewedData,
-            backgroundColor: chartColor,
-            borderColor: chartBorder, 
-            borderWidth: 2
+          label: 'Times Displayed',
+          data: viewedData,
+          backgroundColor: chartColor,
+          borderColor: chartBorder, 
+          borderWidth: 2
         }, 
         {
           label: 'Times Clicked',
@@ -156,7 +160,7 @@ function renderChart() {
           backgroundColor: chartBorder,
           borderColor: chartColor, 
           borderWidth: 2
-      }]
+        }]
     },
     options: {
         scales: {
