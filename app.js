@@ -16,14 +16,14 @@ var chartBorder = [];
 document.getElementById("voteAgain").style.visibility = "hidden";
 
 //Object Constructor
-function Products(alt, src, title, viewed=0, clicked=0) {
+function Products(alt, src, title, viewed=0, clicked=0, percentage=0) {
   this.alt = alt;
   this.src = src;
   this.title = title;
   this.viewed = viewed;
   this.clicked = clicked;
+  this.percentage = percentage;
   this.lastdisplayed = false;
-  this.percentage = 0;
   allProducts.push(this);
 }
 
@@ -79,7 +79,6 @@ function chartData() {
     labelsArray.push(allProducts[t].title);
     viewedData.push(allProducts[t].viewed);
     clickedData.push(allProducts[t].clicked);
-    // percentData.push(allProducts[t].percentage);
   }
 }
 
@@ -94,15 +93,11 @@ function handleClick(e) {
     if (clickedImage === allProducts[i].title){
       allProducts[i].clicked++;
       votes++;
-      if (votes === 5) {
+      if (votes === 25) {
         votes = 0;
-        chartData();
-        renderChart();
         renderData('resultsPlaceHolder', 'h3', 'Results from your selections');
         document.getElementById("voteAgain").style.visibility = "visible";
         sectionEL.removeEventListener('click', handleClick);
-        toLocalStorage();
-
         for (var x = 0; x < allProducts.length; x++) {
           if (allProducts[x].viewed === 0) {
             allProducts[x].percentage = 0;
@@ -113,10 +108,15 @@ function handleClick(e) {
           }
           renderData('resultsPlaceHolder', 'p', `Product Name: ${allProducts[x].title} | Times Displayed: ${allProducts[x].viewed} | Times Clicked: ${allProducts[x].clicked} | Percent: ${allProducts[x].percentage}%`);  
         }
+        chartData();
+        renderChart();
+        renderPercentagesChart();
+        toLocalStorage();
         // resetValues();
       }
     }
   }
+  
   displayedImages();
 }
 
@@ -179,22 +179,46 @@ function renderChart() {
   });
 }
 
+function renderPercentagesChart() {
+  var ctx = document.getElementById('percentagesChart');
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labelsArray,
+        datasets: [{
+          label: 'Percentage',
+          data: percentData,
+          backgroundColor: chartColor,
+          borderColor: chartBorder, 
+          borderWidth: 2
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+  });
+}
+
 
 function populateData(){
   if (localStorage.getItem('swProducts')) {
-    console.log('There is local Storage');
     var allStorageProducts = JSON.parse(localStorage.getItem('swProducts'));
-    console.log(allStorageProducts);
     for (var i = 0; i < allStorageProducts.length; i++) {
       new Products(
         allStorageProducts[i].alt,
         allStorageProducts[i].src, 
         allStorageProducts[i].title,
         allStorageProducts[i].viewed,
-        allStorageProducts[i].clicked);
+        allStorageProducts[i].clicked,
+        allStorageProducts[i].percentage);
     }
   } else {
-      console.log('There is no localStorage');
       new Products('bag','img/bag.jpg','bag')
       new Products('banana','img/banana.jpg','banana')
       new Products('bathroom','img/bathroom.jpg','bathroom')
@@ -217,7 +241,6 @@ function populateData(){
       new Products('wine-glass','img/wine-glass.jpg','wine-glass')
     }
 }
-
 
 sectionEL.addEventListener('click', handleClick);
 
