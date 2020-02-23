@@ -53,8 +53,31 @@ Display the list of all the products followed by the votes received and number o
 
 >I created a constructor with the name and path parameters. I created a new object for each image.   
 
+## Lab 12
+### Instructions
+
+As a marketeer, I want to prevent users from seeing the same image in two subsequent iterations, so that they are not biased.
+Update your algorithm to randomly generate three unique product images from the images directory.
+Update your algorithm so that new products are generated, confirm that these products are not duplicates from the immediate previous set.
+As a user, I would like to track how many times a product has appeared in a voting session, so that I can track analytics on each piece of data.
+Add an additional property to your constructor function that tracks the number of times the product has been shown.
+Update this new property every time the product is shown as one of the three options on the screen for the viewer to choose.
+As a marketing manager, I would like a visual representation of how many times a product was clicked so that I can visually analyze the results.
+
+Using ChartJS (imported from CDN), display the vote totals and the number of times a product was viewed in a bar chart format. (hint: don’t forget about the <canvas> tags)
+Place the bar chart in the section located beneath your three product images
+The bar charts should only appear after all voting data has been collected.
+
+## Lab 13
+### Instructions
+As a user, I would like my data to persistently track totals between page refreshes, so that I can keep track of the aggregate number of votes.
+
+Implement local storage into your current application
+Make sure the data persists across both browser refreshes and resets
+
 # Challanges
-- So far, it has been challenging to not make the images repeat themselves. 
+- It was hard to come up with the logic to not make the images repeat themselves if they were presented in the previous round. This was overcome by assigning a boolean value to each image. If the boolean was true, the image would not display on the screen. 
+- It was challenging to display the percentage data in the charts. All the calculations were done right, but I could not display the totals until after the page was refresed. I just had to make sure I was calling the functions in the right order.   
 
 
 # Author 
