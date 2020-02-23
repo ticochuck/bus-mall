@@ -20,7 +20,7 @@ function Products(alt, src, title, viewed=0, clicked=0) {
   this.alt = alt;
   this.src = src;
   this.title = title;
-  this.viewed = viewedData;
+  this.viewed = viewed;
   this.clicked = clicked;
   this.lastdisplayed = false;
   this.percentage = 0;
@@ -84,8 +84,8 @@ function chartData() {
 }
 
 function toLocalStorage() {
-  var sTringArray = JSON.stringify(allProducts);
-  localStorage.setItem('swProducts',sTringArray);
+  var stringArray = JSON.stringify(allProducts);
+  localStorage.setItem('swProducts',stringArray);
 }
 
 function handleClick(e) {
@@ -94,15 +94,15 @@ function handleClick(e) {
     if (clickedImage === allProducts[i].title){
       allProducts[i].clicked++;
       votes++;
-      if (votes === 25) {
+      if (votes === 5) {
         votes = 0;
-        toLocalStorage();
         chartData();
         renderChart();
         renderData('resultsPlaceHolder', 'h3', 'Results from your selections');
         document.getElementById("voteAgain").style.visibility = "visible";
-        
         sectionEL.removeEventListener('click', handleClick);
+        toLocalStorage();
+
         for (var x = 0; x < allProducts.length; x++) {
           if (allProducts[x].viewed === 0) {
             allProducts[x].percentage = 0;
