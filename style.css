@@ -131,3 +131,7 @@ a {
   text-decoration: none;
   font-family: 'PT Sans', sans-serif;
 }
+
+#percentagesChart, #myData {
+  margin: 50px;
+}
